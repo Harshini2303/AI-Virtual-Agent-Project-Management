@@ -1,0 +1,20 @@
+[
+  {
+    "task": "Design system architecture",
+    "status": "completed",
+    "priority": "high",
+    "deadline": "2025-01-10"
+  },
+  {
+    "task": "Develop AI agent logic",
+    "status": "pending",
+    "priority": "high",
+    "deadline": "2025-01-15"
+  },
+  {
+    "task": "Prepare project presentation",
+    "status": "pending",
+    "priority": "medium",
+    "deadline": "2025-01-20"
+  }
+]
