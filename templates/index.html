@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Project Intelligence Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="app">
+
+<header class="topbar">
+    <h1>AI Project Intelligence Platform</h1>
+    <p>Enterprise project monitoring & AI decision support</p>
+</header>
+
+<section class="dashboard">
+    <div class="metric-card"><span>Progress</span><h2>{{ metrics.progress }}%</h2></div>
+    <div class="metric-card"><span>Risks</span><h2>{{ metrics.risks }}</h2></div>
+    <div class="metric-card"><span>Team Load</span><h2>{{ metrics.team_load }}%</h2></div>
+    <div class="metric-card"><span>Deadline</span><h2>{{ metrics.deadline }}</h2></div>
+</section>
+
+<section class="content-grid">
+
+<div class="panel wide">
+<h3>Project Tasks</h3>
+<table>
+<tr>
+    <th>Task</th><th>Status</th><th>Progress</th><th>Action</th>
+</tr>
+{% for task in project.tasks %}
+<tr>
+    <td>{{ task.name }}</td>
+    <td><span class="status {{ task.status | lower | replace(' ','-') }}">{{ task.status }}</span></td>
+    <td>{{ task.progress }}%</td>
+    <td>
+        <form method="post" style="display:inline">
+            <input type="hidden" name="form_type" value="edit_task">
+            <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+            <button>Edit</button>
+        </form>
+        <form method="post" style="display:inline">
+            <input type="hidden" name="form_type" value="delete_task">
+            <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+            <button class="danger">Delete</button>
+        </form>
+    </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="panel">
+<h3>{% if edit_task %}Edit Task{% else %}Add Task{% endif %}</h3>
+<form method="post" class="stack">
+{% if edit_task %}
+<input type="hidden" name="form_type" value="update_task">
+<input type="hidden" name="task_index" value="{{ edit_index }}">
+{% else %}
+<input type="hidden" name="form_type" value="project_input">
+{% endif %}
+<input name="project_name" value="{{ project.project_name }}" required>
+<input name="task_name" value="{{ edit_task.name if edit_task else '' }}" required>
+<select name="task_status">
+{% for s in ["Completed","In Progress","Delayed","Not Started"] %}
+<option {% if edit_task and edit_task.status == s %}selected{% endif %}>{{ s }}</option>
+{% endfor %}
+</select>
+<input type="number" name="task_progress" min="0" max="100"
+       value="{{ edit_task.progress if edit_task else '' }}" required>
+<button>{% if edit_task %}Update Task{% else %}Add Task{% endif %}</button>
+</form>
+</div>
+
+<div class="panel">
+<h3>AI Project Assistant</h3>
+<form method="post" class="stack">
+<input type="hidden" name="form_type" value="agent_query">
+<input name="query" placeholder="Ask about risks, progress, actions..." required>
+<button>Ask AI</button>
+</form>
+
+{% if response %}
+<div class="ai-response">{{ response }}</div>
+{% endif %}
+</div>
+
+</section>
+</div>
+</body>
+</html>

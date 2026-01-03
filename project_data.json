@@ -1,0 +1,20 @@
+{
+  "project_name": "AI Project Intelligence System",
+  "tasks": [
+    {
+      "name": "Requirement Analysis",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "name": "System Design",
+      "status": "In Progress",
+      "progress": 70
+    },
+    {
+      "name": "Implementation",
+      "status": "Delayed",
+      "progress": 30
+    }
+  ]
+}
